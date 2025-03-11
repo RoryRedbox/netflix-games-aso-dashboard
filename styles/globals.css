@@ -1,0 +1,18 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --netflix-red: #E50914;
+  --netflix-black: #221F1F;
+  --netflix-dark-gray: #8C8C8C;
+}
+
+body {
+  @apply bg-gray-100;
+}
+
+/* Custom tooltip styles for charts */
+.recharts-tooltip-wrapper {
+  @apply shadow-lg;
+}
