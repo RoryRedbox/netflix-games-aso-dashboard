@@ -171,18 +171,20 @@ const ModularDashboard = () => {
     }));
   };
 
-  const COLORS = ['#e50914', '#831010', '#ff6b6b', '#b81d24', '#f5f5f1'];
+  // Colors for charts - Netflix palette
+  const COLORS = ['#e50914', '#b81d24', '#ff0084', '#01c3dd', '#11b980'];
 
   if (loading || !dashboardData) {
     return (
-      <div className="flex flex-col p-6 bg-gray-100 min-h-screen items-center justify-center">
-        <p className="text-lg">Loading dashboard data...</p>
+      <div className="flex flex-col p-6 bg-gray-900 min-h-screen items-center justify-center">
+        <div className="netflix-loading"></div>
+        <p className="text-lg mt-4 text-white">Loading dashboard data...</p>
       </div>
     );
   }
 
   return (
-    <div className="flex flex-col p-6 bg-gray-100 min-h-screen" style={{ fontFamily: '"Roboto", sans-serif', fontWeight: 400 }}>
+    <div className="flex flex-col p-6 bg-gray-900 min-h-screen" style={{ fontFamily: '"Roboto", sans-serif', fontWeight: 400 }}>
       <GoogleFonts />
       
       {/* Header */}
@@ -207,41 +209,47 @@ const ModularDashboard = () => {
       {/* Charts */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
         {/* Installs Over Time */}
-        <div className="bg-white p-6 rounded-lg shadow">
-          <h2 className="text-xl mb-4" style={{ fontFamily: '"Roboto Slab", serif', fontWeight: 500 }}>Installs Over Time</h2>
+        <div className="netflix-card bg-gray-900 text-white p-6 rounded-lg shadow netflix-chart">
+          <h2 className="text-xl mb-4 text-netflix-red" style={{ fontFamily: '"Roboto Slab", serif', fontWeight: 500 }}>Installs Over Time</h2>
           <ResponsiveContainer width="100%" height={300}>
             <LineChart data={dashboardData.installData}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="month" />
-              <YAxis />
-              <Tooltip />
+              <CartesianGrid strokeDasharray="3 3" stroke="#444" />
+              <XAxis dataKey="month" stroke="#aaa" />
+              <YAxis stroke="#aaa" />
+              <Tooltip 
+                contentStyle={{ backgroundColor: 'rgba(20, 20, 20, 0.9)', border: '1px solid #e50914' }}
+                labelStyle={{ color: '#e50914' }}
+              />
               <Legend />
-              <Line type="monotone" dataKey="installs" stroke="#e50914" activeDot={{ r: 8 }} />
+              <Line type="monotone" dataKey="installs" stroke="#e50914" activeDot={{ r: 8 }} strokeWidth={3} />
             </LineChart>
           </ResponsiveContainer>
-          <div className="mt-4 text-sm text-gray-500">
+          <div className="mt-4 text-sm text-gray-400">
             <p>Key events marked:</p>
             <ul className="mt-2 list-disc pl-5">
-              <li>June: Squid Game Season 3 release (Jun 27th)</li>
-              <li>October: WWE 2K25 Mobile launch (Oct 1st)</li>
+              <li>June: <span className="text-pink-500">Squid Game Season 3</span> release (Jun 27th)</li>
+              <li>October: <span className="text-blue-400">WWE 2K25 Mobile</span> launch (Oct 1st)</li>
             </ul>
           </div>
         </div>
         
         {/* ASO Visibility Score */}
-        <div className="bg-white p-6 rounded-lg shadow">
-          <h2 className="text-xl mb-4" style={{ fontFamily: '"Roboto Slab", serif', fontWeight: 500 }}>ASO Visibility Score</h2>
+        <div className="netflix-card bg-gray-900 text-white p-6 rounded-lg shadow netflix-chart">
+          <h2 className="text-xl mb-4 text-netflix-red" style={{ fontFamily: '"Roboto Slab", serif', fontWeight: 500 }}>ASO Visibility Score</h2>
           <ResponsiveContainer width="100%" height={300}>
             <LineChart data={dashboardData.visibilityScoreData}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="month" />
-              <YAxis domain={[0, 100]} />
-              <Tooltip />
+              <CartesianGrid strokeDasharray="3 3" stroke="#444" />
+              <XAxis dataKey="month" stroke="#aaa" />
+              <YAxis domain={[0, 100]} stroke="#aaa" />
+              <Tooltip 
+                contentStyle={{ backgroundColor: 'rgba(20, 20, 20, 0.9)', border: '1px solid #e50914' }}
+                labelStyle={{ color: '#e50914' }}
+              />
               <Legend />
-              <Line type="monotone" dataKey="score" stroke="#831010" />
+              <Line type="monotone" dataKey="score" stroke="#01c3dd" strokeWidth={3} />
             </LineChart>
           </ResponsiveContainer>
-          <div className="mt-4 text-sm text-gray-500">
+          <div className="mt-4 text-sm text-gray-400">
             <p>ASO visibility score incorporates keyword rankings, browse traffic, and category rankings.</p>
           </div>
         </div>
@@ -249,26 +257,29 @@ const ModularDashboard = () => {
       
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
         {/* Top Keywords */}
-        <div className="bg-white p-6 rounded-lg shadow">
-          <h2 className="text-xl mb-4" style={{ fontFamily: '"Roboto Slab", serif', fontWeight: 500 }}>Top 5 Keywords</h2>
+        <div className="netflix-card bg-gray-900 text-white p-6 rounded-lg shadow netflix-chart">
+          <h2 className="text-xl mb-4 text-netflix-red" style={{ fontFamily: '"Roboto Slab", serif', fontWeight: 500 }}>Top 5 Keywords</h2>
           <ResponsiveContainer width="100%" height={300}>
             <BarChart data={dashboardData.keywordRankingData} layout="vertical">
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis type="number" domain={[0, 30]} />
-              <YAxis dataKey="keyword" type="category" width={100} />
-              <Tooltip />
+              <CartesianGrid strokeDasharray="3 3" stroke="#444" />
+              <XAxis type="number" domain={[0, 30]} stroke="#aaa" />
+              <YAxis dataKey="keyword" type="category" width={100} stroke="#aaa" />
+              <Tooltip 
+                contentStyle={{ backgroundColor: 'rgba(20, 20, 20, 0.9)', border: '1px solid #e50914' }}
+                labelStyle={{ color: '#e50914' }}
+              />
               <Legend />
-              <Bar dataKey="ranking" fill="#b81d24" name="Ranking" />
+              <Bar dataKey="ranking" fill="#ff0084" name="Ranking" />
             </BarChart>
           </ResponsiveContainer>
-          <div className="mt-4 text-sm text-gray-500">
+          <div className="mt-4 text-sm text-gray-400">
             <p>Lower ranking numbers indicate better positions in search results.</p>
           </div>
         </div>
         
         {/* Conversion Rate by Platform */}
-        <div className="bg-white p-6 rounded-lg shadow">
-          <h2 className="text-xl mb-4" style={{ fontFamily: '"Roboto Slab", serif', fontWeight: 500 }}>Conversion Rate by Platform</h2>
+        <div className="netflix-card bg-gray-900 text-white p-6 rounded-lg shadow netflix-chart">
+          <h2 className="text-xl mb-4 text-netflix-red" style={{ fontFamily: '"Roboto Slab", serif', fontWeight: 500 }}>Conversion Rate by Platform</h2>
           <ResponsiveContainer width="100%" height={300}>
             <PieChart>
               <Pie
@@ -285,20 +296,83 @@ const ModularDashboard = () => {
                   <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                 ))}
               </Pie>
-              <Tooltip formatter={(value) => `${value}%`} />
+              <Tooltip 
+                formatter={(value) => `${value}%`}
+                contentStyle={{ backgroundColor: 'rgba(20, 20, 20, 0.9)', border: '1px solid #e50914' }}
+                labelStyle={{ color: '#e50914' }}
+              />
             </PieChart>
           </ResponsiveContainer>
-          <div className="mt-4 text-sm text-gray-500">
+          <div className="mt-4 text-sm text-gray-400">
             <p>Conversion rate: Percentage of users who install after viewing the app page.</p>
           </div>
         </div>
       </div>
       
       {/* Country Performance */}
-      {selectedCountry === 'global' && <CountryPerformanceTable selectedPlatform={selectedPlatform} />}
+      {selectedCountry === 'global' && (
+        <div className="netflix-card bg-gray-900 text-white p-6 rounded-lg shadow mb-6">
+          <h2 className="text-xl mb-4 text-netflix-red" style={{ fontFamily: '"Roboto Slab", serif', fontWeight: 500 }}>Performance by Country</h2>
+          <div className="overflow-x-auto">
+            <table className="min-w-full bg-gray-900">
+              <thead>
+                <tr>
+                  <th className="py-2 px-4 border-b border-gray-700 bg-gray-800 text-left text-gray-300">Country</th>
+                  <th className="py-2 px-4 border-b border-gray-700 bg-gray-800 text-right text-gray-300">Installs</th>
+                  <th className="py-2 px-4 border-b border-gray-700 bg-gray-800 text-right text-gray-300">Conversion Rate</th>
+                  <th className="py-2 px-4 border-b border-gray-700 bg-gray-800 text-right text-gray-300">Avg Keyword Rank</th>
+                  <th className="py-2 px-4 border-b border-gray-700 bg-gray-800 text-right text-gray-300">Visibility Score</th>
+                </tr>
+              </thead>
+              <tbody>
+                {[
+                  { id: 'us', name: 'United States', installs: '320K', conversion: '4.8%', keywordRank: '#5', visibility: '85/100' },
+                  { id: 'uk', name: 'United Kingdom', installs: '95K', conversion: '4.5%', keywordRank: '#7', visibility: '82/100' },
+                  { id: 'kr', name: 'South Korea', installs: '120K', conversion: '5.2%', keywordRank: '#3', visibility: '90/100' },
+                  { id: 'jp', name: 'Japan', installs: '85K', conversion: '3.9%', keywordRank: '#8', visibility: '78/100' },
+                  { id: 'br', name: 'Brazil', installs: '105K', conversion: '4.2%', keywordRank: '#6', visibility: '80/100' },
+                  { id: 'fr', name: 'France', installs: '80K', conversion: '3.8%', keywordRank: '#9', visibility: '75/100' },
+                  { id: 'de', name: 'Germany', installs: '76K', conversion: '3.7%', keywordRank: '#10', visibility: '74/100' }
+                ].map(country => (
+                  <tr key={country.id} className="hover:bg-gray-800 transition-colors duration-150 ease-in-out">
+                    <td className="py-2 px-4 border-b border-gray-700">{country.name}</td>
+                    <td className="py-2 px-4 border-b border-gray-700 text-right">{country.installs}</td>
+                    <td className="py-2 px-4 border-b border-gray-700 text-right">{country.conversion}</td>
+                    <td className="py-2 px-4 border-b border-gray-700 text-right">{country.keywordRank}</td>
+                    <td className="py-2 px-4 border-b border-gray-700 text-right">{country.visibility}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      )}
       
       {/* ASO Recommendations */}
-      <AsoRecommendations selectedPlatform={selectedPlatform} selectedCountry={selectedCountry} />
+      <div className="netflix-card bg-gray-900 text-white p-6 rounded-lg shadow mb-6">
+        <h2 className="text-xl mb-4 text-netflix-red" style={{ fontFamily: '"Roboto Slab", serif', fontWeight: 500 }}>ASO Recommendations</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div>
+            <h3 className="font-bold mb-2 text-pink-500">Keyword Optimization</h3>
+            <ul className="list-disc pl-5 space-y-1 text-gray-300">
+              <li>Add "multiplayer games" to title for Squid Game: Unleashed</li>
+              <li>Incorporate "WWE Raw" in WWE 2K25 description (leveraging Netflix streaming rights)</li>
+              <li>Test seasonal keywords for holiday period (Q4)</li>
+              {selectedCountry === 'kr' && <li>Add Korean-specific terms related to Squid Game actors</li>}
+            </ul>
+          </div>
+          <div>
+            <h3 className="font-bold mb-2 text-blue-400">Creative Optimization</h3>
+            <ul className="list-disc pl-5 space-y-1 text-gray-300">
+              <li>Update screenshots to highlight new Squid Game Season 3 content</li>
+              <li>A/B test icon variations for WWE 2K25 Mobile</li>
+              <li>Create promotional video featuring WWE Raw tie-ins</li>
+              {selectedPlatform === 'ios' && <li>Optimize for iOS 17 features in preview assets</li>}
+              {selectedPlatform === 'android' && <li>Utilize Google Play's larger screenshot slots for feature showcase</li>}
+            </ul>
+          </div>
+        </div>
+      </div>
       
       {/* Footer */}
       <div className="mt-6 text-center text-gray-500 text-sm">
