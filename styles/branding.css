@@ -1,0 +1,149 @@
+/* Netflix Branding Styles */
+:root {
+  --netflix-red: #e50914;
+  --netflix-red-dark: #b81d24;
+  --netflix-black: #000000;
+  --netflix-dark-gray: #222222;
+  --netflix-gray: #303030;
+  --netflix-light-gray: #757575;
+  --netflix-white: #ffffff;
+  --squid-game-pink: #ff0084;
+  --squid-game-teal: #01c3dd;
+  --squid-game-green: #11b980;
+}
+
+.netflix-bg-gradient {
+  background: linear-gradient(135deg, var(--netflix-black) 0%, var(--netflix-dark-gray) 100%);
+}
+
+.netflix-card {
+  border-radius: 4px;
+  overflow: hidden;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.netflix-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+}
+
+.netflix-button {
+  background-color: var(--netflix-red);
+  color: var(--netflix-white);
+  border: none;
+  padding: 8px 16px;
+  border-radius: 2px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.netflix-button:hover {
+  background-color: var(--netflix-red-dark);
+}
+
+.squidy-theme {
+  background: linear-gradient(135deg, #15162c 0%, #311339 100%);
+  color: white;
+}
+
+.squidy-accent {
+  color: var(--squid-game-pink);
+}
+
+.squidy-shape {
+  position: relative;
+}
+
+.squidy-shape:before {
+  content: '';
+  position: absolute;
+  top: -30px;
+  right: -30px;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background-color: var(--squid-game-pink);
+  opacity: 0.5;
+  z-index: 0;
+}
+
+.squidy-shape:after {
+  content: '';
+  position: absolute;
+  bottom: -20px;
+  left: -20px;
+  width: 40px;
+  height: 40px;
+  background-color: var(--squid-game-teal);
+  opacity: 0.6;
+  z-index: 0;
+}
+
+.header-pattern {
+  background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+
+/* Squid Game inspired shapes */
+.squid-circle {
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  background-color: var(--squid-game-pink);
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.squid-triangle {
+  display: inline-block;
+  width: 0;
+  height: 0;
+  border-left: 15px solid transparent;
+  border-right: 15px solid transparent;
+  border-bottom: 30px solid var(--squid-game-teal);
+  margin-right: 10px;
+}
+
+.squid-square {
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  background-color: var(--squid-game-green);
+  margin-right: 10px;
+}
+
+/* Chart styling */
+.netflix-chart .recharts-default-tooltip {
+  background-color: rgba(0, 0, 0, 0.85) !important;
+  border: 1px solid var(--netflix-red) !important;
+  border-radius: 4px !important;
+  color: white !important;
+}
+
+.netflix-chart .recharts-tooltip-label {
+  color: var(--netflix-red) !important;
+}
+
+/* Animated loading indicator */
+.netflix-loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100px;
+}
+
+.netflix-loading:after {
+  content: '';
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 5px solid var(--netflix-red);
+  border-color: var(--netflix-red) transparent var(--netflix-red) transparent;
+  animation: netflix-loader 1.2s linear infinite;
+}
+
+@keyframes netflix-loader {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}

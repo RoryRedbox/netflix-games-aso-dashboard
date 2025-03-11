@@ -46,30 +46,48 @@ const SummaryCards = ({ selectedPlatform, gameSpecificData }) => {
     return selectedPlatform === 'ios' ? '78/100' : selectedPlatform === 'android' ? '82/100' : '80/100';
   };
 
+  const getPlatformColor = () => {
+    return selectedPlatform === 'ios' ? 'bg-gradient-to-br from-blue-600 to-blue-800' : 
+      selectedPlatform === 'android' ? 'bg-gradient-to-br from-green-600 to-green-800' : 
+      'bg-gradient-to-br from-gray-700 to-gray-900';
+  };
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
-      <div className="bg-white p-6 rounded-lg shadow">
-        <h3 className="text-gray-500 mb-1">Total Installs (2025)</h3>
-        <p className="text-3xl font-bold">{getInstalls()}</p>
-        <p className="text-sm text-green-500">↑ 24% vs Last Year</p>
+      <div className="netflix-card bg-gray-900 text-white p-6 rounded-lg shadow relative overflow-hidden">
+        <div className={`absolute inset-0 opacity-20 ${getPlatformColor()}`}></div>
+        <div className="relative z-10">
+          <h3 className="text-gray-400 mb-1">Total Installs (2025)</h3>
+          <p className="text-3xl font-bold">{getInstalls()}</p>
+          <p className="text-sm text-green-500">↑ 24% vs Last Year</p>
+        </div>
       </div>
       
-      <div className="bg-white p-6 rounded-lg shadow">
-        <h3 className="text-gray-500 mb-1">Avg Conversion Rate</h3>
-        <p className="text-3xl font-bold">{getConversionRate()}</p>
-        <p className="text-sm text-green-500">↑ 0.5% vs Last Period</p>
+      <div className="netflix-card bg-gray-900 text-white p-6 rounded-lg shadow relative overflow-hidden">
+        <div className={`absolute inset-0 opacity-20 ${getPlatformColor()}`}></div>
+        <div className="relative z-10">
+          <h3 className="text-gray-400 mb-1">Avg Conversion Rate</h3>
+          <p className="text-3xl font-bold">{getConversionRate()}</p>
+          <p className="text-sm text-green-500">↑ 0.5% vs Last Period</p>
+        </div>
       </div>
       
-      <div className="bg-white p-6 rounded-lg shadow">
-        <h3 className="text-gray-500 mb-1">Keyword Ranking Avg</h3>
-        <p className="text-3xl font-bold">{getKeywordRank()}</p>
-        <p className="text-sm text-green-500">↑ 3 positions vs Last Period</p>
+      <div className="netflix-card bg-gray-900 text-white p-6 rounded-lg shadow relative overflow-hidden">
+        <div className={`absolute inset-0 opacity-20 ${getPlatformColor()}`}></div>
+        <div className="relative z-10">
+          <h3 className="text-gray-400 mb-1">Keyword Ranking Avg</h3>
+          <p className="text-3xl font-bold">{getKeywordRank()}</p>
+          <p className="text-sm text-green-500">↑ 3 positions vs Last Period</p>
+        </div>
       </div>
       
-      <div className="bg-white p-6 rounded-lg shadow">
-        <h3 className="text-gray-500 mb-1">ASO Visibility Score</h3>
-        <p className="text-3xl font-bold">{getVisibilityScore()}</p>
-        <p className="text-sm text-green-500">↑ 12 points vs Last Period</p>
+      <div className="netflix-card bg-gray-900 text-white p-6 rounded-lg shadow relative overflow-hidden">
+        <div className={`absolute inset-0 opacity-20 ${getPlatformColor()}`}></div>
+        <div className="relative z-10">
+          <h3 className="text-gray-400 mb-1">ASO Visibility Score</h3>
+          <p className="text-3xl font-bold">{getVisibilityScore()}</p>
+          <p className="text-sm text-green-500">↑ 12 points vs Last Period</p>
+        </div>
       </div>
     </div>
   );
