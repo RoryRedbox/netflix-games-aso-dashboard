@@ -34,8 +34,8 @@ const GameHighlightCard = ({ game, selectedPlatform }) => {
   // If no specific game is highlighted, show a default card
   if (!gameData[game]) {
     return (
-      <div className="netflix-card bg-gradient-to-br from-gray-800 to-gray-900 text-white p-6 rounded-lg shadow mb-6">
-        <h2 className="text-xl mb-2 text-netflix-red" style={{ fontFamily: '"Roboto Slab", serif', fontWeight: 500 }}>Netflix Games</h2>
+      <div className="bg-gradient-to-br from-gray-800 to-gray-900 text-white p-6 rounded-lg shadow mb-6">
+        <h2 className="text-xl mb-2 text-red-600" style={{ fontFamily: '"Roboto Slab", serif', fontWeight: 500 }}>Netflix Games</h2>
         <p className="text-gray-300 mb-4">Select a specific game to see detailed ASO metrics.</p>
         <div className="flex space-x-2">
           <span className="px-2 py-1 bg-gray-700 rounded-md text-xs text-white">All Platforms</span>
@@ -48,7 +48,7 @@ const GameHighlightCard = ({ game, selectedPlatform }) => {
   const data = gameData[game];
   
   return (
-    <div className={`netflix-card ${data.bgClass} text-white p-6 rounded-lg shadow mb-6 relative overflow-hidden`}>
+    <div className={`${data.bgClass} text-white p-6 rounded-lg shadow mb-6 relative overflow-hidden`}>
       {/* Background decoration */}
       <div className="absolute top-0 right-0 w-24 h-24 opacity-10 rounded-bl-full bg-white"></div>
       <div className="absolute bottom-0 left-0 w-16 h-16 opacity-10 rounded-tr-full bg-white"></div>
@@ -75,7 +75,7 @@ const GameHighlightCard = ({ game, selectedPlatform }) => {
           {data.keyFeatures.map(feature => (
             <span key={feature} className="px-2 py-1 bg-black bg-opacity-30 rounded-md text-xs">{feature}</span>
           ))}
-          <span className="px-2 py-1 bg-netflix-red rounded-md text-xs">
+          <span className="px-2 py-1 bg-red-600 rounded-md text-xs">
             {selectedPlatform === 'ios' ? 'iOS' : selectedPlatform === 'android' ? 'Android' : 'Multi-platform'}
           </span>
         </div>
