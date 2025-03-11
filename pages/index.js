@@ -1,4 +1,5 @@
 import Head from 'next/head';
+import Image from 'next/image';
 import { useState, useEffect } from 'react';
 import { 
   LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer,
@@ -89,17 +90,37 @@ export default function Home() {
 
       <header className="bg-black text-white p-4 shadow-lg">
         <div className="container mx-auto flex justify-between items-center">
-          <h1 className="text-2xl font-bold text-red-600" style={{ fontFamily: '"Roboto Slab", serif', fontWeight: 500 }}>Netflix Games ASO Dashboard</h1>
+          <div className="flex items-center">
+            <img 
+              src="/images/netflix-logo.png" 
+              alt="Netflix" 
+              className="h-8 mr-3" 
+              style={{ height: '32px', objectFit: 'contain' }}
+            />
+            <h1 className="text-2xl font-bold text-red-600" style={{ fontFamily: '"Roboto Slab", serif', fontWeight: 500 }}>
+              Games ASO Dashboard
+            </h1>
+          </div>
           <div className="flex items-center space-x-4">
-            <select 
-              className="bg-gray-800 text-white px-3 py-1 rounded"
-              value={activeGame}
-              onChange={(e) => setActiveGame(e.target.value)}
-              style={{ fontFamily: '"Roboto", sans-serif', fontWeight: 400 }}
-            >
-              <option value="squidGame">Squid Game: Unleashed</option>
-              <option value="wwe">WWE 2K25 Mobile</option>
-            </select>
+            <div className="flex items-center bg-gray-800 text-white px-3 py-1 rounded">
+              {activeGame === 'squidGame' && (
+                <img 
+                  src="/images/squid-game-icon.png" 
+                  alt="Squid Game Icon" 
+                  className="h-6 w-6 mr-2" 
+                  style={{ borderRadius: '4px' }}
+                />
+              )}
+              <select 
+                className="bg-gray-800 text-white appearance-none focus:outline-none"
+                value={activeGame}
+                onChange={(e) => setActiveGame(e.target.value)}
+                style={{ fontFamily: '"Roboto", sans-serif', fontWeight: 400 }}
+              >
+                <option value="squidGame">Squid Game: Unleashed</option>
+                <option value="wwe">WWE 2K25 Mobile</option>
+              </select>
+            </div>
             <select 
               className="bg-gray-800 text-white px-3 py-1 rounded"
               value={dateRange}
@@ -116,6 +137,21 @@ export default function Home() {
       </header>
 
       <main className="container mx-auto py-8 px-4" style={{ fontFamily: '"Roboto", sans-serif', fontWeight: 400 }}>
+        {/* Game Title Banner */}
+        <div className={`flex items-center mb-6 p-4 rounded-lg ${activeGame === 'squidGame' ? 'bg-gradient-to-r from-black to-pink-600' : 'bg-gradient-to-r from-black to-red-700'}`}>
+          {activeGame === 'squidGame' && (
+            <img 
+              src="/images/squid-game-icon.png" 
+              alt="Squid Game: Unleashed" 
+              className="h-12 w-12 mr-4" 
+              style={{ borderRadius: '8px', border: '2px solid white' }}
+            />
+          )}
+          <h1 className="text-3xl font-bold text-white" style={{ fontFamily: '"Roboto Slab", serif', fontWeight: 500 }}>
+            {activeGame === 'squidGame' ? 'Squid Game: Unleashed' : 'WWE 2K25 Mobile'} Performance
+          </h1>
+        </div>
+
         {/* KPI Summary Cards */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
           <div className="bg-white p-4 rounded shadow-md">
@@ -176,7 +212,7 @@ export default function Home() {
                     type="monotone" 
                     dataKey="squidGame" 
                     name="Squid Game: Unleashed" 
-                    stroke="#E50914" 
+                    stroke="#FF069D" 
                     strokeWidth={activeGame === 'squidGame' ? 3 : 1}
                     dot={{ r: 3 }}
                     activeDot={{ r: 8 }}
@@ -186,7 +222,7 @@ export default function Home() {
                     type="monotone" 
                     dataKey="wwe" 
                     name="WWE 2K25 Mobile" 
-                    stroke="#221F1F" 
+                    stroke="#E50914" 
                     strokeWidth={activeGame === 'wwe' ? 3 : 1}
                     dot={{ r: 3 }}
                     activeDot={{ r: 8 }}
@@ -212,7 +248,7 @@ export default function Home() {
                     type="monotone" 
                     dataKey="squidGameCVR" 
                     name="Squid Game: Unleashed" 
-                    stroke="#E50914" 
+                    stroke="#FF069D" 
                     strokeWidth={activeGame === 'squidGame' ? 3 : 1}
                     dot={{ r: 3 }}
                     activeDot={{ r: 8 }}
@@ -222,7 +258,7 @@ export default function Home() {
                     type="monotone" 
                     dataKey="wweCVR" 
                     name="WWE 2K25 Mobile" 
-                    stroke="#221F1F" 
+                    stroke="#E50914" 
                     strokeWidth={activeGame === 'wwe' ? 3 : 1}
                     dot={{ r: 3 }}
                     activeDot={{ r: 8 }}
@@ -236,7 +272,19 @@ export default function Home() {
 
         {/* Keyword Performance */}
         <div className="bg-white p-6 rounded shadow-md mb-8">
-          <h2 className="text-xl font-bold mb-4" style={{ fontFamily: '"Roboto Slab", serif', fontWeight: 500 }}>Top Keyword Performance</h2>
+          <div className="flex items-center mb-4">
+            {activeGame === 'squidGame' && (
+              <img 
+                src="/images/squid-game-icon.png" 
+                alt="Squid Game Icon" 
+                className="h-8 w-8 mr-3" 
+                style={{ borderRadius: '4px' }}
+              />
+            )}
+            <h2 className="text-xl font-bold" style={{ fontFamily: '"Roboto Slab", serif', fontWeight: 500 }}>
+              Top Keyword Performance
+            </h2>
+          </div>
           <div className="overflow-x-auto">
             <table className="min-w-full">
               <thead>
@@ -286,7 +334,7 @@ export default function Home() {
                     label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
                   >
                     {storeDistribution.map((entry, index) => (
-                      <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                      <Cell key={`cell-${index}`} fill={index === 0 ? '#0088FE' : '#00C49F'} />
                     ))}
                   </Pie>
                   <Tooltip />
@@ -297,7 +345,19 @@ export default function Home() {
 
           {/* Creative Performance */}
           <div className="bg-white p-4 rounded shadow-md col-span-2">
-            <h2 className="text-xl font-bold mb-4" style={{ fontFamily: '"Roboto Slab", serif', fontWeight: 500 }}>Creative Performance (CVR %)</h2>
+            <div className="flex items-center mb-4">
+              {activeGame === 'squidGame' && (
+                <img 
+                  src="/images/squid-game-icon.png" 
+                  alt="Squid Game Icon" 
+                  className="h-8 w-8 mr-3" 
+                  style={{ borderRadius: '4px' }}
+                />
+              )}
+              <h2 className="text-xl font-bold" style={{ fontFamily: '"Roboto Slab", serif', fontWeight: 500 }}>
+                Creative Performance (CVR %)
+              </h2>
+            </div>
             <div className="h-64">
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart
@@ -314,7 +374,7 @@ export default function Home() {
                   <XAxis dataKey="name" />
                   <YAxis />
                   <Tooltip />
-                  <Bar dataKey="cvr" fill={activeGame === 'squidGame' ? '#E50914' : '#221F1F'} />
+                  <Bar dataKey="cvr" fill={activeGame === 'squidGame' ? '#FF069D' : '#E50914'} />
                 </BarChart>
               </ResponsiveContainer>
             </div>
@@ -325,7 +385,15 @@ export default function Home() {
       <footer className="bg-gray-800 text-white p-6">
         <div className="container mx-auto">
           <div className="flex flex-col md:flex-row justify-between items-center">
-            <p>&copy; 2025 Netflix Games. All rights reserved.</p>
+            <div className="flex items-center">
+              <img 
+                src="/images/netflix-logo.png" 
+                alt="Netflix" 
+                className="h-6 mr-3" 
+                style={{ height: '24px', objectFit: 'contain' }}
+              />
+              <p>&copy; 2025 Netflix Games. All rights reserved.</p>
+            </div>
             <p className="text-gray-400 mt-2 md:mt-0">Last updated: Mar 11, 2025</p>
           </div>
         </div>
