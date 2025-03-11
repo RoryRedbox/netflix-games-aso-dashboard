@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import DashboardHeader from './DashboardHeader';
 import FilterBar from './FilterBar';
 import SummaryCards from './SummaryCards';
+import GameHighlightCard from './GameHighlightCard';
 import { BarChart, Bar, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
 import CountryPerformanceTable from './CountryPerformanceTable';
 import AsoRecommendations from './AsoRecommendations';
@@ -12,7 +13,7 @@ const GoogleFonts = () => (
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&family=Roboto+Slab:wght@500&display=swap" rel="stylesheet" />
 );
 
-const ModularDashboard = () => {
+const ModularDashboard = ({ squidTheme = true }) => {
   // State for filters
   const [selectedPlatform, setSelectedPlatform] = useState('all');
   const [selectedCountry, setSelectedCountry] = useState('global');
@@ -184,7 +185,13 @@ const ModularDashboard = () => {
   }
 
   return (
-    <div className="flex flex-col p-6 bg-gray-900 min-h-screen" style={{ fontFamily: '"Roboto", sans-serif', fontWeight: 400 }}>
+    <div className="flex flex-col p-6 bg-gray-900 min-h-screen" style={{ 
+      fontFamily: '"Roboto", sans-serif', 
+      fontWeight: 400,
+      backgroundImage: squidTheme ? 'url(/squid-game-bg.svg)' : 'none',
+      backgroundAttachment: 'fixed',
+      backgroundSize: 'cover'
+    }}>
       <GoogleFonts />
       
       {/* Header */}
@@ -199,6 +206,11 @@ const ModularDashboard = () => {
         selectedGame={selectedGame}
         setSelectedGame={setSelectedGame}
       />
+      
+      {/* Game Highlight Card (when specific game is selected) */}
+      {selectedGame !== 'all' && (
+        <GameHighlightCard game={selectedGame} selectedPlatform={selectedPlatform} />
+      )}
       
       {/* Summary Cards */}
       <SummaryCards 
@@ -349,30 +361,7 @@ const ModularDashboard = () => {
       )}
       
       {/* ASO Recommendations */}
-      <div className="netflix-card bg-gray-900 text-white p-6 rounded-lg shadow mb-6">
-        <h2 className="text-xl mb-4 text-netflix-red" style={{ fontFamily: '"Roboto Slab", serif', fontWeight: 500 }}>ASO Recommendations</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div>
-            <h3 className="font-bold mb-2 text-pink-500">Keyword Optimization</h3>
-            <ul className="list-disc pl-5 space-y-1 text-gray-300">
-              <li>Add "multiplayer games" to title for Squid Game: Unleashed</li>
-              <li>Incorporate "WWE Raw" in WWE 2K25 description (leveraging Netflix streaming rights)</li>
-              <li>Test seasonal keywords for holiday period (Q4)</li>
-              {selectedCountry === 'kr' && <li>Add Korean-specific terms related to Squid Game actors</li>}
-            </ul>
-          </div>
-          <div>
-            <h3 className="font-bold mb-2 text-blue-400">Creative Optimization</h3>
-            <ul className="list-disc pl-5 space-y-1 text-gray-300">
-              <li>Update screenshots to highlight new Squid Game Season 3 content</li>
-              <li>A/B test icon variations for WWE 2K25 Mobile</li>
-              <li>Create promotional video featuring WWE Raw tie-ins</li>
-              {selectedPlatform === 'ios' && <li>Optimize for iOS 17 features in preview assets</li>}
-              {selectedPlatform === 'android' && <li>Utilize Google Play's larger screenshot slots for feature showcase</li>}
-            </ul>
-          </div>
-        </div>
-      </div>
+      <AsoRecommendations selectedPlatform={selectedPlatform} selectedCountry={selectedCountry} />
       
       {/* Footer */}
       <div className="mt-6 text-center text-gray-500 text-sm">
