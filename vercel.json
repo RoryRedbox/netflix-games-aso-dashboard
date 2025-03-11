@@ -5,5 +5,14 @@
       "src": "package.json",
       "use": "@vercel/next"
     }
-  ]
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "/"
+    }
+  ],
+  "github": {
+    "silent": true
+  }
 }
