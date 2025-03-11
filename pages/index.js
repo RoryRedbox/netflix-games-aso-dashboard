@@ -59,6 +59,10 @@ const storeDistribution = [
 
 const COLORS = ['#0088FE', '#00C49F'];
 
+// Direct image URLs
+const NETFLIX_LOGO_URL = 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/Logonetflix.png/1600px-Logonetflix.png';
+const SQUID_GAME_ICON_URL = 'https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/a8/52/99/a85299f9-f946-cd17-5e8a-80b90f5c7ad9/AppIcon-0-0-1x_U007emarketing-0-7-0-85-220.png/1024x1024bb.jpg';
+
 export default function Home() {
   const [activeGame, setActiveGame] = useState('squidGame');
   const [dateRange, setDateRange] = useState('all');
@@ -92,7 +96,7 @@ export default function Home() {
         <div className="container mx-auto flex justify-between items-center">
           <div className="flex items-center">
             <img 
-              src="/images/netflix-logo.png" 
+              src={NETFLIX_LOGO_URL} 
               alt="Netflix" 
               className="h-8 mr-3" 
               style={{ height: '32px', objectFit: 'contain' }}
@@ -105,7 +109,7 @@ export default function Home() {
             <div className="flex items-center bg-gray-800 text-white px-3 py-1 rounded">
               {activeGame === 'squidGame' && (
                 <img 
-                  src="/images/squid-game-icon.png" 
+                  src={SQUID_GAME_ICON_URL} 
                   alt="Squid Game Icon" 
                   className="h-6 w-6 mr-2" 
                   style={{ borderRadius: '4px' }}
@@ -141,7 +145,7 @@ export default function Home() {
         <div className={`flex items-center mb-6 p-4 rounded-lg ${activeGame === 'squidGame' ? 'bg-gradient-to-r from-black to-pink-600' : 'bg-gradient-to-r from-black to-red-700'}`}>
           {activeGame === 'squidGame' && (
             <img 
-              src="/images/squid-game-icon.png" 
+              src={SQUID_GAME_ICON_URL} 
               alt="Squid Game: Unleashed" 
               className="h-12 w-12 mr-4" 
               style={{ borderRadius: '8px', border: '2px solid white' }}
@@ -275,7 +279,7 @@ export default function Home() {
           <div className="flex items-center mb-4">
             {activeGame === 'squidGame' && (
               <img 
-                src="/images/squid-game-icon.png" 
+                src={SQUID_GAME_ICON_URL} 
                 alt="Squid Game Icon" 
                 className="h-8 w-8 mr-3" 
                 style={{ borderRadius: '4px' }}
@@ -348,7 +352,7 @@ export default function Home() {
             <div className="flex items-center mb-4">
               {activeGame === 'squidGame' && (
                 <img 
-                  src="/images/squid-game-icon.png" 
+                  src={SQUID_GAME_ICON_URL} 
                   alt="Squid Game Icon" 
                   className="h-8 w-8 mr-3" 
                   style={{ borderRadius: '4px' }}
@@ -387,7 +391,7 @@ export default function Home() {
           <div className="flex flex-col md:flex-row justify-between items-center">
             <div className="flex items-center">
               <img 
-                src="/images/netflix-logo.png" 
+                src={NETFLIX_LOGO_URL} 
                 alt="Netflix" 
                 className="h-6 mr-3" 
                 style={{ height: '24px', objectFit: 'contain' }}
