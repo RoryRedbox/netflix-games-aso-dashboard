@@ -1,11 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import DashboardHeader from './DashboardHeader';
-import FilterBar from './FilterBar';
-import SummaryCards from './SummaryCards';
-import GameHighlightCard from './GameHighlightCard';
 import { BarChart, Bar, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
-import AsoRecommendations from './AsoRecommendations';
-import { gamePerformanceData } from '../data/sample-data';
 
 // Add Google Fonts
 const GoogleFonts = () => (
@@ -13,210 +7,197 @@ const GoogleFonts = () => (
 );
 
 const ModularDashboard = ({ squidTheme = true }) => {
-  // State for filters
+  // Sample data
+  const platforms = [
+    { id: 'all', name: 'All Platforms' },
+    { id: 'ios', name: 'iOS' },
+    { id: 'android', name: 'Android' }
+  ];
+
+  const countries = [
+    { id: 'global', name: 'Global' },
+    { id: 'us', name: 'United States' },
+    { id: 'uk', name: 'United Kingdom' },
+    { id: 'jp', name: 'Japan' },
+    { id: 'kr', name: 'South Korea' },
+    { id: 'br', name: 'Brazil' },
+    { id: 'fr', name: 'France' },
+    { id: 'de', name: 'Germany' }
+  ];
+
+  const games = [
+    { id: 'squid-game', name: 'Squid Game: Unleashed' },
+    { id: 'wwe-2k25', name: 'WWE 2K25 Mobile' },
+    { id: 'netflix-puzzled', name: 'Netflix Puzzled' }
+  ];
+
+  // State
   const [selectedPlatform, setSelectedPlatform] = useState('all');
   const [selectedCountry, setSelectedCountry] = useState('global');
   const [selectedGame, setSelectedGame] = useState('all');
-  const [dashboardData, setDashboardData] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
-  // Fetch data based on filters
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        setLoading(true);
-        // Simulate API call with local data generation
-        const data = await generateDashboardData();
-        setDashboardData(data);
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
+  // Installation data
+  const installData = [
+    { month: 'Jan', installs: 55000 },
+    { month: 'Feb', installs: 60000 },
+    { month: 'Mar', installs: 67000 },
+    { month: 'Apr', installs: 63000 },
+    { month: 'May', installs: 73000 },
+    { month: 'Jun', installs: 95000 },
+    { month: 'Jul', installs: 90000 },
+    { month: 'Aug', installs: 85000 },
+    { month: 'Sep', installs: 81000 },
+    { month: 'Oct', installs: 105000 },
+    { month: 'Nov', installs: 100000 },
+    { month: 'Dec', installs: 97000 }
+  ];
 
-    fetchData();
-  }, [selectedPlatform, selectedCountry, selectedGame]);
+  // Keyword ranking data
+  const keywordRankingData = [
+    { keyword: 'squid game', ranking: 2 },
+    { keyword: 'netflix games', ranking: 1 },
+    { keyword: 'wwe', ranking: 5 },
+    { keyword: 'party game', ranking: 8 },
+    { keyword: 'wrestling', ranking: 10 }
+  ];
 
-  // Sample data generation functions
-  const generateDashboardData = async () => {
-    // Simulate network delay
-    await new Promise(resolve => setTimeout(resolve, 300));
+  // Conversion rate data
+  const conversionRateData = [
+    { name: 'iOS', value: 4.2 },
+    { name: 'Android', value: 3.8 }
+  ];
 
-    // Generate data
-    const installData = generateInstallData();
-    const keywordRankingData = generateKeywordRankingData();
-    const conversionRateData = generateConversionRateData();
-    const visibilityScoreData = generateVisibilityScoreData();
+  // Visibility score data
+  const visibilityScoreData = [
+    { month: 'Jan', score: 67 },
+    { month: 'Feb', score: 69 },
+    { month: 'Mar', score: 71 },
+    { month: 'Apr', score: 74 },
+    { month: 'May', score: 76 },
+    { month: 'Jun', score: 87 },
+    { month: 'Jul', score: 84 },
+    { month: 'Aug', score: 81 },
+    { month: 'Sep', score: 79 },
+    { month: 'Oct', score: 89 },
+    { month: 'Nov', score: 86 },
+    { month: 'Dec', score: 85 }
+  ];
 
-    return {
-      installData,
-      keywordRankingData,
-      conversionRateData,
-      visibilityScoreData,
-      gameSpecificData: selectedGame === 'all' ? null : gamePerformanceData[selectedGame]
-    };
-  };
-
-  // Sample data for charts
-  const generateInstallData = () => {
-    const baseData = [
-      { month: 'Jan', ios: 25000, android: 30000 },
-      { month: 'Feb', ios: 28000, android: 32000 },
-      { month: 'Mar', ios: 32000, android: 35000 },
-      { month: 'Apr', ios: 30000, android: 33000 },
-      { month: 'May', ios: 35000, android: 38000 },
-      { month: 'Jun', ios: 45000, android: 50000 },
-      { month: 'Jul', ios: 42000, android: 48000 },
-      { month: 'Aug', ios: 40000, android: 45000 },
-      { month: 'Sep', ios: 38000, android: 43000 },
-      { month: 'Oct', ios: 50000, android: 55000 },
-      { month: 'Nov', ios: 48000, android: 52000 },
-      { month: 'Dec', ios: 47000, android: 50000 }
-    ];
-
-    // Apply platform filter
-    if (selectedPlatform === 'ios' || selectedPlatform === 'android') {
-      return baseData.map(item => ({
-        month: item.month,
-        installs: item[selectedPlatform]
-      }));
-    }
-
-    // If all platforms, combine the data
-    return baseData.map(item => ({
-      month: item.month,
-      installs: item.ios + item.android
-    }));
-  };
-
-  const generateKeywordRankingData = () => {
-    const rankings = [
-      { keyword: 'squid game', ios: 2, android: 3 },
-      { keyword: 'battle royale', ios: 15, android: 12 },
-      { keyword: 'party game', ios: 8, android: 10 },
-      { keyword: 'netflix games', ios: 1, android: 1 },
-      { keyword: 'multiplayer', ios: 20, android: 18 },
-      { keyword: 'wwe', ios: 5, android: 4 },
-      { keyword: 'wrestling', ios: 10, android: 8 },
-      { keyword: 'puzzle games', ios: 12, android: 15 }
-    ];
-
-    if (selectedPlatform === 'ios' || selectedPlatform === 'android') {
-      return rankings
-        .map(item => ({
-          keyword: item.keyword,
-          ranking: item[selectedPlatform]
-        }))
-        .sort((a, b) => a.ranking - b.ranking)
-        .slice(0, 5);
-    }
-
-    // If all platforms, average the rankings
-    return rankings
-      .map(item => ({
-        keyword: item.keyword,
-        ranking: Math.round((item.ios + item.android) / 2)
-      }))
-      .sort((a, b) => a.ranking - b.ranking)
-      .slice(0, 5);
-  };
-
-  const generateConversionRateData = () => {
-    const baseData = [
-      { name: 'iOS', value: 4.2 },
-      { name: 'Android', value: 3.8 }
-    ];
-
-    if (selectedPlatform === 'all') {
-      return baseData;
-    }
-    
-    return baseData.filter(item => item.name.toLowerCase() === selectedPlatform);
-  };
-
-  const generateVisibilityScoreData = () => {
-    const baseData = [
-      { month: 'Jan', ios: 65, android: 68 },
-      { month: 'Feb', ios: 67, android: 70 },
-      { month: 'Mar', ios: 70, android: 72 },
-      { month: 'Apr', ios: 72, android: 75 },
-      { month: 'May', ios: 75, android: 77 },
-      { month: 'Jun', ios: 85, android: 88 },
-      { month: 'Jul', ios: 83, android: 85 },
-      { month: 'Aug', ios: 80, android: 82 },
-      { month: 'Sep', ios: 78, android: 80 },
-      { month: 'Oct', ios: 87, android: 90 },
-      { month: 'Nov', ios: 85, android: 87 },
-      { month: 'Dec', ios: 84, android: 86 }
-    ];
-
-    if (selectedPlatform === 'ios' || selectedPlatform === 'android') {
-      return baseData.map(item => ({
-        month: item.month,
-        score: item[selectedPlatform]
-      }));
-    }
-
-    return baseData.map(item => ({
-      month: item.month,
-      score: Math.round((item.ios + item.android) / 2)
-    }));
-  };
-
-  // Colors for charts - Netflix palette
+  // Colors for charts
   const COLORS = ['#e50914', '#b81d24', '#ff0084', '#01c3dd', '#11b980'];
-
-  if (loading || !dashboardData) {
-    return (
-      <div className="flex flex-col p-6 bg-gray-900 min-h-screen items-center justify-center">
-        <div className="netflix-loading"></div>
-        <p className="text-lg mt-4 text-white">Loading dashboard data...</p>
-      </div>
-    );
-  }
 
   return (
     <div className="flex flex-col p-6 bg-gray-900 min-h-screen" style={{ 
       fontFamily: '"Roboto", sans-serif', 
       fontWeight: 400,
-      backgroundImage: squidTheme ? 'url(/squid-game-bg.svg)' : 'none',
-      backgroundAttachment: 'fixed',
-      backgroundSize: 'cover'
     }}>
       <GoogleFonts />
       
       {/* Header */}
-      <DashboardHeader />
+      <div className="bg-black text-white p-6 rounded-lg shadow-lg mb-6 relative overflow-hidden">
+        <div className="flex items-center justify-between relative z-10">
+          <div>
+            <div className="flex items-center">
+              <h1 className="text-3xl mb-2" style={{ fontFamily: '"Roboto Slab", serif', fontWeight: 500 }}>
+                Netflix Games <span className="text-pink-500">ASO Dashboard</span>
+              </h1>
+            </div>
+            <p className="text-gray-300">Monitor and optimize App Store presence for Netflix Games</p>
+          </div>
+        </div>
+        <div className="absolute top-0 right-0 w-24 h-24 opacity-10 rounded-bl-full bg-pink-500"></div>
+        <div className="absolute bottom-0 left-0 w-16 h-16 opacity-10 rounded-tr-full bg-blue-400"></div>
+      </div>
       
       {/* Filters */}
-      <FilterBar 
-        selectedPlatform={selectedPlatform}
-        setSelectedPlatform={setSelectedPlatform}
-        selectedCountry={selectedCountry}
-        setSelectedCountry={setSelectedCountry}
-        selectedGame={selectedGame}
-        setSelectedGame={setSelectedGame}
-      />
-      
-      {/* Game Highlight Card (when specific game is selected) */}
-      {selectedGame !== 'all' && (
-        <GameHighlightCard game={selectedGame} selectedPlatform={selectedPlatform} />
-      )}
+      <div className="bg-gray-900 bg-opacity-95 text-white p-6 rounded-lg shadow mb-6">
+        <h2 className="text-xl mb-4 text-red-600" style={{ fontFamily: '"Roboto Slab", serif', fontWeight: 500 }}>Dashboard Filters</h2>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div>
+            <label className="block text-sm font-medium text-gray-300 mb-1">Platform</label>
+            <select 
+              className="w-full p-2 bg-gray-800 border border-gray-700 rounded text-white focus:border-red-600 focus:ring focus:ring-red-600 focus:ring-opacity-50"
+              value={selectedPlatform}
+              onChange={(e) => setSelectedPlatform(e.target.value)}
+            >
+              {platforms.map(platform => (
+                <option key={platform.id} value={platform.id}>{platform.name}</option>
+              ))}
+            </select>
+          </div>
+          
+          <div>
+            <label className="block text-sm font-medium text-gray-300 mb-1">Country</label>
+            <select 
+              className="w-full p-2 bg-gray-800 border border-gray-700 rounded text-white focus:border-red-600 focus:ring focus:ring-red-600 focus:ring-opacity-50"
+              value={selectedCountry}
+              onChange={(e) => setSelectedCountry(e.target.value)}
+            >
+              {countries.map(country => (
+                <option key={country.id} value={country.id}>{country.name}</option>
+              ))}
+            </select>
+          </div>
+          
+          <div>
+            <label className="block text-sm font-medium text-gray-300 mb-1">Game</label>
+            <select 
+              className="w-full p-2 bg-gray-800 border border-gray-700 rounded text-white focus:border-red-600 focus:ring focus:ring-red-600 focus:ring-opacity-50"
+              value={selectedGame}
+              onChange={(e) => setSelectedGame(e.target.value)}
+            >
+              <option value="all">All Games</option>
+              {games.map(game => (
+                <option key={game.id} value={game.id}>{game.name}</option>
+              ))}
+            </select>
+          </div>
+        </div>
+      </div>
       
       {/* Summary Cards */}
-      <SummaryCards 
-        selectedPlatform={selectedPlatform} 
-        gameSpecificData={dashboardData.gameSpecificData}
-      />
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
+        <div className="bg-gray-900 text-white p-6 rounded-lg shadow relative overflow-hidden">
+          <div className="relative z-10">
+            <h3 className="text-gray-400 mb-1">Total Installs (2025)</h3>
+            <p className="text-3xl font-bold">881K</p>
+            <p className="text-sm text-green-500">↑ 24% vs Last Year</p>
+          </div>
+        </div>
+        
+        <div className="bg-gray-900 text-white p-6 rounded-lg shadow relative overflow-hidden">
+          <div className="relative z-10">
+            <h3 className="text-gray-400 mb-1">Avg Conversion Rate</h3>
+            <p className="text-3xl font-bold">4.0%</p>
+            <p className="text-sm text-green-500">↑ 0.5% vs Last Period</p>
+          </div>
+        </div>
+        
+        <div className="bg-gray-900 text-white p-6 rounded-lg shadow relative overflow-hidden">
+          <div className="relative z-10">
+            <h3 className="text-gray-400 mb-1">Keyword Ranking Avg</h3>
+            <p className="text-3xl font-bold">#7.5</p>
+            <p className="text-sm text-green-500">↑ 3 positions vs Last Period</p>
+          </div>
+        </div>
+        
+        <div className="bg-gray-900 text-white p-6 rounded-lg shadow relative overflow-hidden">
+          <div className="relative z-10">
+            <h3 className="text-gray-400 mb-1">ASO Visibility Score</h3>
+            <p className="text-3xl font-bold">80/100</p>
+            <p className="text-sm text-green-500">↑ 12 points vs Last Period</p>
+          </div>
+        </div>
+      </div>
       
       {/* Charts */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
         {/* Installs Over Time */}
-        <div className="bg-gray-900 text-white p-6 rounded-lg shadow netflix-chart">
+        <div className="bg-gray-900 text-white p-6 rounded-lg shadow">
           <h2 className="text-xl mb-4 text-red-600" style={{ fontFamily: '"Roboto Slab", serif', fontWeight: 500 }}>Installs Over Time</h2>
           <ResponsiveContainer width="100%" height={300}>
-            <LineChart data={dashboardData.installData}>
+            <LineChart data={installData}>
               <CartesianGrid strokeDasharray="3 3" stroke="#444" />
               <XAxis dataKey="month" stroke="#aaa" />
               <YAxis stroke="#aaa" />
@@ -238,10 +219,10 @@ const ModularDashboard = ({ squidTheme = true }) => {
         </div>
         
         {/* ASO Visibility Score */}
-        <div className="bg-gray-900 text-white p-6 rounded-lg shadow netflix-chart">
+        <div className="bg-gray-900 text-white p-6 rounded-lg shadow">
           <h2 className="text-xl mb-4 text-red-600" style={{ fontFamily: '"Roboto Slab", serif', fontWeight: 500 }}>ASO Visibility Score</h2>
           <ResponsiveContainer width="100%" height={300}>
-            <LineChart data={dashboardData.visibilityScoreData}>
+            <LineChart data={visibilityScoreData}>
               <CartesianGrid strokeDasharray="3 3" stroke="#444" />
               <XAxis dataKey="month" stroke="#aaa" />
               <YAxis domain={[0, 100]} stroke="#aaa" />
@@ -261,10 +242,10 @@ const ModularDashboard = ({ squidTheme = true }) => {
       
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
         {/* Top Keywords */}
-        <div className="bg-gray-900 text-white p-6 rounded-lg shadow netflix-chart">
+        <div className="bg-gray-900 text-white p-6 rounded-lg shadow">
           <h2 className="text-xl mb-4 text-red-600" style={{ fontFamily: '"Roboto Slab", serif', fontWeight: 500 }}>Top 5 Keywords</h2>
           <ResponsiveContainer width="100%" height={300}>
-            <BarChart data={dashboardData.keywordRankingData} layout="vertical">
+            <BarChart data={keywordRankingData} layout="vertical">
               <CartesianGrid strokeDasharray="3 3" stroke="#444" />
               <XAxis type="number" domain={[0, 30]} stroke="#aaa" />
               <YAxis dataKey="keyword" type="category" width={100} stroke="#aaa" />
@@ -282,12 +263,12 @@ const ModularDashboard = ({ squidTheme = true }) => {
         </div>
         
         {/* Conversion Rate by Platform */}
-        <div className="bg-gray-900 text-white p-6 rounded-lg shadow netflix-chart">
+        <div className="bg-gray-900 text-white p-6 rounded-lg shadow">
           <h2 className="text-xl mb-4 text-red-600" style={{ fontFamily: '"Roboto Slab", serif', fontWeight: 500 }}>Conversion Rate by Platform</h2>
           <ResponsiveContainer width="100%" height={300}>
             <PieChart>
               <Pie
-                data={dashboardData.conversionRateData}
+                data={conversionRateData}
                 cx="50%"
                 cy="50%"
                 labelLine={false}
@@ -296,7 +277,7 @@ const ModularDashboard = ({ squidTheme = true }) => {
                 fill="#8884d8"
                 dataKey="value"
               >
-                {dashboardData.conversionRateData.map((entry, index) => (
+                {conversionRateData.map((entry, index) => (
                   <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                 ))}
               </Pie>
@@ -353,7 +334,33 @@ const ModularDashboard = ({ squidTheme = true }) => {
       )}
       
       {/* ASO Recommendations */}
-      <AsoRecommendations selectedPlatform={selectedPlatform} selectedCountry={selectedCountry} />
+      <div className="bg-gray-900 text-white p-6 rounded-lg shadow mb-6">
+        <h2 className="text-xl mb-4 text-red-600" style={{ fontFamily: '"Roboto Slab", serif', fontWeight: 500 }}>ASO Recommendations</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div>
+            <h3 className="font-bold mb-2 text-pink-500">Keyword Optimization</h3>
+            <ul className="list-disc pl-5 space-y-1 text-gray-300">
+              <li>Add "multiplayer games" to title for Squid Game: Unleashed</li>
+              <li>Incorporate "WWE Raw" in WWE 2K25 description (leveraging Netflix streaming rights)</li>
+              <li>Test seasonal keywords for holiday period (Q4)</li>
+              {selectedCountry === 'kr' && <li>Add Korean-specific terms related to Squid Game actors</li>}
+              {selectedCountry === 'jp' && <li>Add Japanese-specific gaming terminology</li>}
+              {selectedCountry === 'br' && <li>Use Portuguese terms in Brazilian store listing</li>}
+            </ul>
+          </div>
+          <div>
+            <h3 className="font-bold mb-2 text-blue-400">Creative Optimization</h3>
+            <ul className="list-disc pl-5 space-y-1 text-gray-300">
+              <li>Update screenshots to highlight new Squid Game Season 3 content</li>
+              <li>A/B test icon variations for WWE 2K25 Mobile</li>
+              <li>Create promotional video featuring WWE Raw tie-ins</li>
+              {selectedPlatform === 'ios' && <li>Optimize for iOS 17 features in preview assets</li>}
+              {selectedPlatform === 'android' && <li>Utilize Google Play's larger screenshot slots for feature showcase</li>}
+              {selectedPlatform === 'all' && <li>Create platform-specific preview videos</li>}
+            </ul>
+          </div>
+        </div>
+      </div>
       
       {/* Footer */}
       <div className="mt-6 text-center text-gray-500 text-sm">
