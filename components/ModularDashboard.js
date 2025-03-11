@@ -4,7 +4,6 @@ import FilterBar from './FilterBar';
 import SummaryCards from './SummaryCards';
 import GameHighlightCard from './GameHighlightCard';
 import { BarChart, Bar, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
-import CountryPerformanceTable from './CountryPerformanceTable';
 import AsoRecommendations from './AsoRecommendations';
 import { gamePerformanceData } from '../data/sample-data';
 
@@ -26,11 +25,7 @@ const ModularDashboard = ({ squidTheme = true }) => {
     const fetchData = async () => {
       try {
         setLoading(true);
-        // In a real implementation, this would fetch from the API
-        // const response = await fetch(`/api/data?platform=${selectedPlatform}&country=${selectedCountry}&game=${selectedGame}`);
-        // const data = await response.json();
-        
-        // For demo purposes, simulate API call with local data generation
+        // Simulate API call with local data generation
         const data = await generateDashboardData();
         setDashboardData(data);
       } catch (error) {
@@ -43,12 +38,12 @@ const ModularDashboard = ({ squidTheme = true }) => {
     fetchData();
   }, [selectedPlatform, selectedCountry, selectedGame]);
 
-  // Sample data generation functions (would be replaced by API calls)
+  // Sample data generation functions
   const generateDashboardData = async () => {
     // Simulate network delay
     await new Promise(resolve => setTimeout(resolve, 300));
 
-    // Generate install data
+    // Generate data
     const installData = generateInstallData();
     const keywordRankingData = generateKeywordRankingData();
     const conversionRateData = generateConversionRateData();
@@ -65,18 +60,17 @@ const ModularDashboard = ({ squidTheme = true }) => {
 
   // Sample data for charts
   const generateInstallData = () => {
-    // This would be replaced with actual API calls in production
     const baseData = [
       { month: 'Jan', ios: 25000, android: 30000 },
       { month: 'Feb', ios: 28000, android: 32000 },
       { month: 'Mar', ios: 32000, android: 35000 },
       { month: 'Apr', ios: 30000, android: 33000 },
       { month: 'May', ios: 35000, android: 38000 },
-      { month: 'Jun', ios: 45000, android: 50000 }, // Spike for Squid Game Season 3
+      { month: 'Jun', ios: 45000, android: 50000 },
       { month: 'Jul', ios: 42000, android: 48000 },
       { month: 'Aug', ios: 40000, android: 45000 },
       { month: 'Sep', ios: 38000, android: 43000 },
-      { month: 'Oct', ios: 50000, android: 55000 }, // Spike for WWE 2K25 launch
+      { month: 'Oct', ios: 50000, android: 55000 },
       { month: 'Nov', ios: 48000, android: 52000 },
       { month: 'Dec', ios: 47000, android: 50000 }
     ];
@@ -97,7 +91,6 @@ const ModularDashboard = ({ squidTheme = true }) => {
   };
 
   const generateKeywordRankingData = () => {
-    // Simulated keyword ranking data
     const rankings = [
       { keyword: 'squid game', ios: 2, android: 3 },
       { keyword: 'battle royale', ios: 15, android: 12 },
@@ -130,7 +123,6 @@ const ModularDashboard = ({ squidTheme = true }) => {
   };
 
   const generateConversionRateData = () => {
-    // Conversion rate by platform
     const baseData = [
       { name: 'iOS', value: 4.2 },
       { name: 'Android', value: 3.8 }
@@ -150,11 +142,11 @@ const ModularDashboard = ({ squidTheme = true }) => {
       { month: 'Mar', ios: 70, android: 72 },
       { month: 'Apr', ios: 72, android: 75 },
       { month: 'May', ios: 75, android: 77 },
-      { month: 'Jun', ios: 85, android: 88 }, // Boost from Season 3
+      { month: 'Jun', ios: 85, android: 88 },
       { month: 'Jul', ios: 83, android: 85 },
       { month: 'Aug', ios: 80, android: 82 },
       { month: 'Sep', ios: 78, android: 80 },
-      { month: 'Oct', ios: 87, android: 90 }, // Boost from WWE launch
+      { month: 'Oct', ios: 87, android: 90 },
       { month: 'Nov', ios: 85, android: 87 },
       { month: 'Dec', ios: 84, android: 86 }
     ];
@@ -221,8 +213,8 @@ const ModularDashboard = ({ squidTheme = true }) => {
       {/* Charts */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
         {/* Installs Over Time */}
-        <div className="netflix-card bg-gray-900 text-white p-6 rounded-lg shadow netflix-chart">
-          <h2 className="text-xl mb-4 text-netflix-red" style={{ fontFamily: '"Roboto Slab", serif', fontWeight: 500 }}>Installs Over Time</h2>
+        <div className="bg-gray-900 text-white p-6 rounded-lg shadow netflix-chart">
+          <h2 className="text-xl mb-4 text-red-600" style={{ fontFamily: '"Roboto Slab", serif', fontWeight: 500 }}>Installs Over Time</h2>
           <ResponsiveContainer width="100%" height={300}>
             <LineChart data={dashboardData.installData}>
               <CartesianGrid strokeDasharray="3 3" stroke="#444" />
@@ -246,8 +238,8 @@ const ModularDashboard = ({ squidTheme = true }) => {
         </div>
         
         {/* ASO Visibility Score */}
-        <div className="netflix-card bg-gray-900 text-white p-6 rounded-lg shadow netflix-chart">
-          <h2 className="text-xl mb-4 text-netflix-red" style={{ fontFamily: '"Roboto Slab", serif', fontWeight: 500 }}>ASO Visibility Score</h2>
+        <div className="bg-gray-900 text-white p-6 rounded-lg shadow netflix-chart">
+          <h2 className="text-xl mb-4 text-red-600" style={{ fontFamily: '"Roboto Slab", serif', fontWeight: 500 }}>ASO Visibility Score</h2>
           <ResponsiveContainer width="100%" height={300}>
             <LineChart data={dashboardData.visibilityScoreData}>
               <CartesianGrid strokeDasharray="3 3" stroke="#444" />
@@ -269,8 +261,8 @@ const ModularDashboard = ({ squidTheme = true }) => {
       
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
         {/* Top Keywords */}
-        <div className="netflix-card bg-gray-900 text-white p-6 rounded-lg shadow netflix-chart">
-          <h2 className="text-xl mb-4 text-netflix-red" style={{ fontFamily: '"Roboto Slab", serif', fontWeight: 500 }}>Top 5 Keywords</h2>
+        <div className="bg-gray-900 text-white p-6 rounded-lg shadow netflix-chart">
+          <h2 className="text-xl mb-4 text-red-600" style={{ fontFamily: '"Roboto Slab", serif', fontWeight: 500 }}>Top 5 Keywords</h2>
           <ResponsiveContainer width="100%" height={300}>
             <BarChart data={dashboardData.keywordRankingData} layout="vertical">
               <CartesianGrid strokeDasharray="3 3" stroke="#444" />
@@ -290,8 +282,8 @@ const ModularDashboard = ({ squidTheme = true }) => {
         </div>
         
         {/* Conversion Rate by Platform */}
-        <div className="netflix-card bg-gray-900 text-white p-6 rounded-lg shadow netflix-chart">
-          <h2 className="text-xl mb-4 text-netflix-red" style={{ fontFamily: '"Roboto Slab", serif', fontWeight: 500 }}>Conversion Rate by Platform</h2>
+        <div className="bg-gray-900 text-white p-6 rounded-lg shadow netflix-chart">
+          <h2 className="text-xl mb-4 text-red-600" style={{ fontFamily: '"Roboto Slab", serif', fontWeight: 500 }}>Conversion Rate by Platform</h2>
           <ResponsiveContainer width="100%" height={300}>
             <PieChart>
               <Pie
@@ -323,8 +315,8 @@ const ModularDashboard = ({ squidTheme = true }) => {
       
       {/* Country Performance */}
       {selectedCountry === 'global' && (
-        <div className="netflix-card bg-gray-900 text-white p-6 rounded-lg shadow mb-6">
-          <h2 className="text-xl mb-4 text-netflix-red" style={{ fontFamily: '"Roboto Slab", serif', fontWeight: 500 }}>Performance by Country</h2>
+        <div className="bg-gray-900 text-white p-6 rounded-lg shadow mb-6">
+          <h2 className="text-xl mb-4 text-red-600" style={{ fontFamily: '"Roboto Slab", serif', fontWeight: 500 }}>Performance by Country</h2>
           <div className="overflow-x-auto">
             <table className="min-w-full bg-gray-900">
               <thead>
